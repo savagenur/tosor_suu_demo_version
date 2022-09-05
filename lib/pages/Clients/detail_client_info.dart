@@ -1,5 +1,6 @@
 import 'package:demo_version/models/address_model.dart';
 import 'package:demo_version/pages/Clients/check_page.dart';
+import 'package:demo_version/pages/Clients/choose_services_page.dart';
 import 'package:demo_version/pages/Clients/create_request_page2.dart';
 import 'package:demo_version/pages/Clients/water_meter_reading_page.dart';
 import 'package:demo_version/widgets/my_widget.dart';
@@ -186,7 +187,7 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
                           icon: Icons.payments_rounded,
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => CheckPage()));
+                                builder: (context) => ChooseServicesPage(address: widget.addressModel)));
                           },
                           width: 100,
                           size: 12,

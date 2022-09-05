@@ -34,6 +34,19 @@ class _SearchClientPageState extends State<SearchClientPage> {
     bool isAlphaSort = filters[2].value;
     bool isNotEnteredMeterReadings = filters[1].value;
     bool isDebtSort = filters[0].value;
+
+    final sortedAddresses = addresses
+      ..sort(((a, b) {
+        if (isAlphaSort) {
+          return a.title.compareTo(b.title);
+        } else if (isDebtSort) {
+          return b.debtSum.compareTo(a.debtSum);
+        } else if (isNotEnteredMeterReadings) {
+          return b.notEnteredMeterReadings.compareTo(a.notEnteredMeterReadings);
+        } else {
+          return b.notEnteredMeterReadings.compareTo(a.notEnteredMeterReadings);
+        }
+      }));
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -166,90 +179,111 @@ class _SearchClientPageState extends State<SearchClientPage> {
                     height: 20,
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      keyboardDismissBehavior:
-                          ScrollViewKeyboardDismissBehavior.onDrag,
-                      itemCount: addresses.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final sortedAddresses = addresses
-                          ..sort(((a, b) {
-                            if (isAlphaSort) {
-                              return a.title.compareTo(b.title);
-                            } else if (isDebtSort) {
-                              return b.debtSum.compareTo(a.debtSum);
-                            } else if (isNotEnteredMeterReadings) {
-                              return b.notEnteredMeterReadings
-                                  .compareTo(a.notEnteredMeterReadings);
-                            } else {
-                              return b.notEnteredMeterReadings
-                                  .compareTo(a.notEnteredMeterReadings);
-                            }
-                          }));
-                        return SizedBox(
-                          height: 50,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                flex: 95,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width:isDebtSort?190:MediaQuery.of(context).size.width/1.5 ,
-                                      child: Text(
-                                        sortedAddresses[index].title,
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    isDebtSort
-                                        ? Text(
-                                            ' ${sortedAddresses[index].debtSum}сом',
-                                            style: TextStyle(fontSize: 16),
+                    child: SingleChildScrollView(
+                      child: ExpansionPanelList(
+
+                          expansionCallback: (panelIndex, isExpanded) {
+                            setState(
+                              () {
+                                sortedAddresses[panelIndex].isExpanded =
+                                    !sortedAddresses[panelIndex].isExpanded;
+                              },
+                            );
+                          },animationDuration: Duration(seconds:1),
+                          children: sortedAddresses.map((address) {
+                            return ExpansionPanel(
+                              canTapOnHeader: true,
+                              
+                                headerBuilder: (context, isExpanded) {
+                                  return Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(address.title));
+                                },
+                                body: Column(
+                                  children: List.generate(
+                                      address.subAddresses.length, (index) {
+                                    var subaddress =
+                                        address.subAddresses[index];
+                                    return SizedBox(
+                                      height: 50,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            flex: 95,
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: isDebtSort
+                                                      ? 190
+                                                      : MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          1.5,
+                                                  child: Text(
+                                                    subaddress,
+                                                    style:
+                                                        TextStyle(fontSize: 16),
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                isDebtSort
+                                                    ? Text(
+                                                        ' ${address.debtSum}сом',
+                                                        style: TextStyle(
+                                                            fontSize: 16),
+                                                      )
+                                                    : Container(),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Flexible(
+                                            flex: 25,
+                                            child: Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {},
+                                                  child: Icon(
+                                                      Icons
+                                                          .electric_meter_outlined,
+                                                      color:
+                                                          address.notEnteredMeterReadings ==
+                                                                  1
+                                                              ? Colors.red
+                                                              : Colors.green),
+                                                ),
+                                                IconButton(
+                                                    onPressed: () {
+                                                      FocusScope.of(context)
+                                                          .unfocus();
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  DetailClientInfo(
+                                                                    addressModel:
+                                                                        address,
+                                                                  )));
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.info_outline,
+                                                      color: Colors.blue,
+                                                    ))
+                                              ],
+                                            ),
                                           )
-                                        : Container(),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    );
+                                  }),
                                 ),
-                              ),
-                              Flexible(
-                                flex: 25,
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Icon(Icons.electric_meter_outlined,
-                                          color: sortedAddresses[index]
-                                                      .notEnteredMeterReadings ==
-                                                  1
-                                              ? Colors.red
-                                              : Colors.green),
-                                    ),
-                                    IconButton(
-                                        onPressed: () {
-                                          FocusScope.of(context).unfocus();
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      DetailClientInfo(
-                                                        addressModel:
-                                                            sortedAddresses[
-                                                                index],
-                                                      )));
-                                        },
-                                        icon: Icon(
-                                          Icons.info_outline,
-                                          color: Colors.blue,
-                                        ))
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      },
+                                isExpanded: address.isExpanded
+                                );
+                          }).toList()),
                     ),
                   ),
                 ],
