@@ -1,5 +1,5 @@
 import 'package:demo_version/pages/Tasks/send_request_page.dart';
-import 'package:demo_version/pages/analytics_page.dart';
+import 'package:demo_version/pages/Analytics/analytics_page.dart';
 import 'package:demo_version/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -35,13 +35,7 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             Spacer(flex: 1,),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder( ),
-                hintText: "Организация",
-              ),
-            ),
-            Spacer(flex: 1,),
+            
             Container(
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(

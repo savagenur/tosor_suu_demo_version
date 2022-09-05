@@ -1,18 +1,40 @@
 import 'package:demo_version/models/address_model.dart';
 import 'package:demo_version/pages/Clients/check_page.dart';
+import 'package:demo_version/pages/Clients/create_request_page2.dart';
 import 'package:demo_version/pages/Clients/water_meter_reading_page.dart';
 import 'package:demo_version/widgets/my_widget.dart';
 import 'package:demo_version/widgets/routes_widget.dart';
 import 'package:flutter/material.dart';
 
-class DetailClientInfo extends StatelessWidget {
+class DetailClientInfo extends StatefulWidget {
   final AddressModel addressModel;
-  const DetailClientInfo({Key? key, required this.addressModel}) : super(key: key);
+  const DetailClientInfo({Key? key, required this.addressModel})
+      : super(key: key);
+
+  @override
+  State<DetailClientInfo> createState() => _DetailClientInfoState();
+}
+
+class _DetailClientInfoState extends State<DetailClientInfo> {
+  late TextEditingController nameSurnameController;
+  late TextEditingController phoneNumberController;
+  @override
+  void initState() {
+    nameSurnameController =
+        TextEditingController(text: widget.addressModel.nameSurname);
+    phoneNumberController =
+        TextEditingController(text: widget.addressModel.phoneNumber.toString());
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('ОО "Тосор Суу"'),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -32,44 +54,106 @@ class DetailClientInfo extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 100,
-                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          children: [
+                            TextItem(
+                                title: "ФИО: \n",
+                                fontSize: 22,
+                                text: widget.addressModel.nameSurname),
+                            IconButton(
+                                onPressed: () {
+                                  editNameOrPhone(widget.addressModel, context,false);
+                                },
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.blue,
+                                ))
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            TextItem(
+                                title: "Номер телефона: \n",
+                                fontSize: 22,
+                                text: '+' +
+                                    widget.addressModel.phoneNumber.toString()),
+                            IconButton(
+                                onPressed: () {
+                                  editNameOrPhone(widget.addressModel, context,true);
+
+                                  setState(() {});
+                                },
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.blue,
+                                ))
+                          ],
+                        ),
+                        TextItem(
+                            title: "Лицевой счет: ",
+                            fontSize: 22,
+                            text:
+                                widget.addressModel.personalAccount.toString()),
                         TextItem(
                             title: "Адрес: ",
                             fontSize: 22,
-                            text: addressModel.title),
+                            text: widget.addressModel.title),
                         TextItem(
                             title: "Задолженность: ",
                             fontSize: 22,
-                            text: "${(addressModel.debtSum*.7).toInt()}"),
+                            text:
+                                "${(widget.addressModel.debtSum * .7).toInt()}"),
                         TextItem(
                             title: "За апрель месяц: ",
                             fontSize: 22,
-                            text: "${(addressModel.debtSum*.3).toInt()}"),
+                            text:
+                                "${(widget.addressModel.debtSum * .3).toInt()}"),
                         TextItem(
                           title: "Итого общая сумма для оплаты: ",
                           fontSize: 22,
-                          text: "${addressModel.debtSum} ",
+                          text: "${widget.addressModel.debtSum} ",
                           text2: "(уведомлен через смс)",
                         ),
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CreateRequestPage2(
+                                    addressModel: widget.addressModel)));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              "Создание заявки\nтех службе",
+                            ),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color?>(
+                                      Colors.grey)),
+                        ),
                         Column(
                           children: [
                             Icon(
                               Icons.electric_meter,
-                              color:addressModel.notEnteredMeterReadings==1?Colors.red: Colors.green,
+                              color:
+                                  widget.addressModel.notEnteredMeterReadings ==
+                                          1
+                                      ? Colors.red
+                                      : Colors.green,
                               size: 30,
                             ),
                             Text(
-                             addressModel.notEnteredMeterReadings==1?"Вбейте показания\nза август": "Показания за\nавгуст вбиты",
+                              widget.addressModel.notEnteredMeterReadings == 1
+                                  ? "Вбейте показания\nза август"
+                                  : "Показания за\nавгуст вбиты",
                               style: TextStyle(
                                 fontSize: 15,
                               ),
@@ -135,6 +219,29 @@ class DetailClientInfo extends StatelessWidget {
       ),
     );
   }
+
+  Future editNameOrPhone(
+      AddressModel addressModel, BuildContext context,bool isPhoneNumber) async {
+    final nameSurname = showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(isPhoneNumber?'+'+addressModel.phoneNumber.toString():"ФИО:"),
+        content: TextField(
+          controller: isPhoneNumber?phoneNumberController: nameSurnameController,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Готово"))
+        ],
+      ),
+    );
+  }
 }
 
 class TextItem extends StatelessWidget {
@@ -153,25 +260,26 @@ class TextItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        RichText(
-            text: TextSpan(
-                text: title,
-                style: TextStyle(fontSize: fontSize, color: Colors.black),
-                children: [
-              TextSpan(
-                text: text,
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              TextSpan(
-                text: text2,
-              ),
-            ])),
-        SizedBox(
-          height: 20,
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          RichText(
+              text: TextSpan(
+                  text: title,
+                  style: TextStyle(fontSize: fontSize, color: Colors.black),
+                  children: [
+                TextSpan(
+                  text: text,
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                TextSpan(
+                  text: text2,
+                ),
+              ])),
+        ],
+      ),
     );
   }
 }

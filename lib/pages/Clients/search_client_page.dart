@@ -38,8 +38,7 @@ class _SearchClientPageState extends State<SearchClientPage> {
       onTap: () {
         FocusScope.of(context).unfocus();
         setState(() {
-          if (addresses.isEmpty) {
-          }
+          if (addresses.isEmpty) {}
         });
       },
       child: Scaffold(
@@ -179,11 +178,6 @@ class _SearchClientPageState extends State<SearchClientPage> {
                             } else if (isDebtSort) {
                               return b.debtSum.compareTo(a.debtSum);
                             } else if (isNotEnteredMeterReadings) {
-                              // if (b.notEnteredMeterReadings) {
-                              //   return 1;
-                              // } else {
-                              //   return -1;
-                              // }
                               return b.notEnteredMeterReadings
                                   .compareTo(a.notEnteredMeterReadings);
                             } else {
@@ -200,18 +194,23 @@ class _SearchClientPageState extends State<SearchClientPage> {
                                 flex: 95,
                                 child: Row(
                                   children: [
-                                    Text(
-                                      sortedAddresses[index].title,
-                                      style: TextStyle(fontSize: 16),
+                                    Container(
+                                      width:isDebtSort?190:MediaQuery.of(context).size.width/1.5 ,
+                                      child: Text(
+                                        sortedAddresses[index].title,
+                                        style: TextStyle(fontSize: 16),
+                                      ),
                                     ),
                                     Spacer(),
-                                    Text(
-                                      ' ${sortedAddresses[index].debtSum}сом',
-                                      style: TextStyle(fontSize: 16),
-                                    ),
+                                    isDebtSort
+                                        ? Text(
+                                            ' ${sortedAddresses[index].debtSum}сом',
+                                            style: TextStyle(fontSize: 16),
+                                          )
+                                        : Container(),
                                     SizedBox(
                                       width: 10,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),

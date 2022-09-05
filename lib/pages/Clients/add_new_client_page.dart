@@ -19,25 +19,33 @@ class AddNewClientPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Text("Лицевой счет: 3245145187341",style: Theme.of(context).textTheme.headline6,),
               Container(
-                height: MediaQuery.of(context).size.height * .65,
-                child: Column(
-                  children: [
-                    MyTextField(
-                        hintText: "ФИО абонента / на кого оформлен дом"),
-                    MyTextField(hintText: "Адрес"),
-                    MyTextField(hintText: "Последние показания счетчика"),
-                    MyTextField(hintText: "Есть ли поливные участки"),
-                    MyTextField(hintText: "Номер телефона"),
-                  ],
+                height: MediaQuery.of(context).size.height * .62,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      
+                      SizedBox(height: 10,),
+                      MyTextField(
+                          hintText: "ФИО абонента / на кого оформлен дом"),
+                      MyTextField(hintText: "Город, Район"),
+                      MyTextField(hintText: "Адрес"),
+                      MyTextField(hintText: "Последние показания счетчика"),
+                      MyTextField(hintText: "Есть ли поливные участки"),
+                      MyTextField(hintText: "Номер телефона"),
+                      
+                    ],
+                  ),
                 ),
               ),
+        
               MyButton(
-                title: 'Добавить абонента',
+                title: 'Сохранить',
                 width: MediaQuery.of(context).size.width,
                 onTap: () {
                   Navigator.of(context).pop();
-
+        
                   // Navigator.of(context).push(MaterialPageRoute(
                   //     builder: (context) => CreateRequestPage()));
                 },

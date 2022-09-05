@@ -1,25 +1,31 @@
+import 'package:demo_version/models/address_model.dart';
 import 'package:demo_version/pages/Tasks/description_request_page.dart';
 import 'package:demo_version/widgets/my_button.dart';
 import 'package:demo_version/widgets/routes_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/my_text_field.dart';
-import '../Clients/detail_client_info.dart';
+import 'detail_client_info.dart';
 
-class CreateRequestPage extends StatefulWidget {
-  CreateRequestPage({Key? key}) : super(key: key);
+class CreateRequestPage2 extends StatefulWidget {
+  final AddressModel addressModel;
+  const CreateRequestPage2({Key? key, required this.addressModel})
+      : super(key: key);
 
   @override
-  State<CreateRequestPage> createState() => _CreateRequestPageState();
-
-  static const List<String> statuses = [
-    "Завершенный",
-    "Открытый",
-    "В работе",
-  ];
+  State<CreateRequestPage2> createState() => _CreateRequestPage2State();
 }
 
-class _CreateRequestPageState extends State<CreateRequestPage> {
+class _CreateRequestPage2State extends State<CreateRequestPage2> {
+  late String status;
+  @override
+  void initState() {
+    // TODO: implement initState
+    status = widget.addressModel.priority!;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,11 +37,30 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              TextItem(
+                  title: "ФИО: ",
+                  fontSize: 22,
+                  text: widget.addressModel.nameSurname),
+              TextItem(
+                  title: "Номер телефона: ",
+                  fontSize: 22,
+                  text: '+' + widget.addressModel.phoneNumber.toString()),
+              TextItem(
+                  title: "Лицевой счет: ",
+                  fontSize: 22,
+                  text: widget.addressModel.personalAccount.toString()),
+              TextItem(
+                  title: "Адрес: ",
+                  fontSize: 22,
+                  text: widget.addressModel.title),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
-                  TextItem(
-                      title: "Приоритет: ", fontSize: 18, text: selectedValue),
+                  TextItem(title: "Приоритет: ", fontSize: 22, text: status),
                   PopupMenuButton(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -47,19 +72,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                       itemBuilder: (context) {
                         return buildPopupMenuItem();
                       })
+                      
                 ],
               ),
-              SizedBox(
+                  SizedBox(
                 height: 10,
-              ),
-              MyTextField(
-                hintText: "Введите ФИО",
-              ),
-              MyTextField(
-                hintText: "Введите адрес",
-              ),
-              MyTextField(
-                hintText: "Контактный номер",
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
@@ -67,10 +84,25 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.black)),
                 child: TextField(
-                  maxLines: 8,
+                  maxLines: 5,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Опишите проблему",
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black)),
+                child: TextField(
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Комментарий",
                   ),
                 ),
               ),
@@ -94,14 +126,10 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                             builder: (context) => DescriptionRequestPage(
                               nameSurname: "Азамат Азаматов",
                               phoneNumber: 996787878,
-                              status: "Открытый",
+                              status: "В процессе",
                               address: "Проспект Манаса 35/2",
                               problemDesc: "Отключение света/воды",
-                              statusColor: selectedValue == priorities[0]
-                                  ? Colors.green
-                                  : selectedValue == priorities[1]
-                                      ? Colors.amber
-                                      : Colors.red,
+                              statusColor: Colors.grey,
                             ),
                           ),
                         );
@@ -117,20 +145,19 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
         ),
       ),
       bottomNavigationBar: RoutesWidget(
-        currentIndex: 2,
+        currentIndex: 1,
       ),
     );
   }
 
-  static const List<String> priorities = [
+  String selectedValue = statuses.first;
+  static const List<String> statuses = [
     "Нормалный",
     "Высокий",
     "Чрезвычайный",
   ];
-  String selectedValue = priorities.first;
-
   buildPopupMenuItem() {
-    return priorities.map((value) {
+    return statuses.map((value) {
       return PopupMenuItem(
         child: RadioListTile(
           value: value,
@@ -139,6 +166,7 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
           onChanged: (value) {
             setState(() {
               selectedValue = value as String;
+              status = selectedValue;
             });
             Navigator.pop(context);
           },

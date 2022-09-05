@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+
 class MyTextField extends StatelessWidget {
   final String hintText;
+  final TextInputType? keyboardType;
   const MyTextField({
-    Key? key, required this.hintText,
+    Key? key,
+    required this.hintText,  this.keyboardType,
   }) : super(key: key);
 
   @override
@@ -16,13 +19,16 @@ class MyTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.black)),
           child: TextField(
+            keyboardType: keyboardType,
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: hintText,
             ),
           ),
         ),
-        SizedBox(height: 20,)
+        SizedBox(
+          height: 20,
+        )
       ],
     );
   }

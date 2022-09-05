@@ -1,4 +1,4 @@
-import 'package:demo_version/pages/analytics_page.dart';
+import 'package:demo_version/pages/Analytics/analytics_page.dart';
 import 'package:demo_version/pages/Clients/search_client_page.dart';
 import 'package:demo_version/pages/Tasks/send_request_page.dart';
 import 'package:demo_version/widgets/my_widget.dart';
