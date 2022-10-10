@@ -66,7 +66,8 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
                                 text: widget.addressModel.nameSurname),
                             IconButton(
                                 onPressed: () {
-                                  editNameOrPhone(widget.addressModel, context,false);
+                                  editNameOrPhone(
+                                      widget.addressModel, context, false);
                                 },
                                 icon: Icon(
                                   Icons.edit,
@@ -83,7 +84,8 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
                                     widget.addressModel.phoneNumber.toString()),
                             IconButton(
                                 onPressed: () {
-                                  editNameOrPhone(widget.addressModel, context,true);
+                                  editNameOrPhone(
+                                      widget.addressModel, context, true);
 
                                   setState(() {});
                                 },
@@ -113,9 +115,14 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
                             text:
                                 "${(widget.addressModel.debtSum * .3).toInt()}"),
                         TextItem(
+                          title: "Пеня: ",
+                          fontSize: 22,
+                          text: "0.2",
+                        ),
+                        TextItem(
                           title: "Итого общая сумма для оплаты: ",
                           fontSize: 22,
-                          text: "${widget.addressModel.debtSum} ",
+                          text: "${widget.addressModel.debtSum + .2} ",
                           text2: "(уведомлен через смс)",
                         ),
                       ],
@@ -140,7 +147,7 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
                                   MaterialStateProperty.all<Color?>(
                                       Colors.grey)),
                         ),
-                        Column(
+                      widget.addressModel.isMeterReading?   Column(
                           children: [
                             Icon(
                               Icons.electric_meter,
@@ -152,7 +159,7 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
                               size: 30,
                             ),
                             Text(
-                              widget.addressModel.notEnteredMeterReadings == 1
+                             widget.addressModel.notEnteredMeterReadings == 1
                                   ? "Вбейте показания\nза август"
                                   : "Показания за\nавгуст вбиты",
                               style: TextStyle(
@@ -161,10 +168,10 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
                               textAlign: TextAlign.center,
                             )
                           ],
-                        )
+                        ):Container()
                       ],
                     ),
-                    SizedBox(
+                    SizedBox( 
                       height: 20,
                     ),
                     Row(
@@ -187,7 +194,8 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
                           icon: Icons.payments_rounded,
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ChooseServicesPage(address: widget.addressModel)));
+                                builder: (context) => ChooseServicesPage(
+                                    address: widget.addressModel)));
                           },
                           width: 100,
                           size: 12,
@@ -221,17 +229,31 @@ class _DetailClientInfoState extends State<DetailClientInfo> {
     );
   }
 
-  Future editNameOrPhone(
-      AddressModel addressModel, BuildContext context,bool isPhoneNumber) async {
+  Future editNameOrPhone(AddressModel addressModel, BuildContext context,
+      bool isPhoneNumber) async {
     final nameSurname = showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(isPhoneNumber?'+'+addressModel.phoneNumber.toString():"ФИО:"),
-        content: TextField(
-          controller: isPhoneNumber?phoneNumberController: nameSurnameController,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-          ),
+        title: Text("Введите данные"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameSurnameController,
+              decoration: InputDecoration(
+                label: Text("ФИО"),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 20,),
+            TextField(
+              controller: phoneNumberController,
+              decoration: InputDecoration(
+                label: Text('Номер телефона'),
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
         ),
         actions: [
           ElevatedButton(

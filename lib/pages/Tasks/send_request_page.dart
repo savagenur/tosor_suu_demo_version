@@ -92,7 +92,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
             Container(
               padding: EdgeInsets.all(5),
               child: buildExpansionTile(
-                  context: context, title: "Открытые", status: "Открытый"),
+                  context: context, title: "В очереди", status: "Открытый"),
             ),
             Container(
               padding: EdgeInsets.all(5),
@@ -194,11 +194,11 @@ class MyDrawer extends StatelessWidget {
             ),
             PriorityWidget(
               title: "Нормалный",
-              color: Colors.green,
+              color: Colors.amber,
             ),
             PriorityWidget(
               title: "Высокий",
-              color: Colors.amber,
+              color: Colors.orange,
             ),
             PriorityWidget(
               title: "Чрезвычайный",

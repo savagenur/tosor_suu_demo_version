@@ -25,6 +25,7 @@ class CheckPage extends StatelessWidget {
       "Расход",
       "Тариф",
       "Сумма",
+      "Пеня",
       "Задолженность",
       "Итого",
     ];
@@ -35,6 +36,7 @@ class CheckPage extends StatelessWidget {
       (address.debtSum * .1).toString(),
       "18",
       "258.57",
+      "0.2",
       "-50.57",
       "208",
     ];

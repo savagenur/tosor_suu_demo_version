@@ -26,7 +26,9 @@ class _SearchClientPageState extends State<SearchClientPage> {
       title: "Сумма долга",
     ),
     CheckBoxState(title: "Не вбитые\nпоказания счетчиков"),
-    CheckBoxState(title: "Алфавитный порядок", value: true),
+    CheckBoxState(title: "Алфавитный порядок",value: true),
+    CheckBoxState(title: "Улицы", ),
+    CheckBoxState(title: "Участки", ),
   ];
 
   @override
@@ -248,14 +250,17 @@ class _SearchClientPageState extends State<SearchClientPage> {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () {},
-                                                  child: Icon(
+                                                  child:address.isMeterReading ? Icon(
                                                       Icons
                                                           .electric_meter_outlined,
                                                       color:
                                                           address.notEnteredMeterReadings ==
                                                                   1
                                                               ? Colors.red
-                                                              : Colors.green),
+                                                              : Colors.green):Icon(
+                                                      Icons
+                                                          .power_off,
+                                                      color: Colors.grey,),
                                                 ),
                                                 IconButton(
                                                     onPressed: () {

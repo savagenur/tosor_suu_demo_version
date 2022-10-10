@@ -168,7 +168,9 @@ class _DescriptionRequestPageState extends State<DescriptionRequestPage> {
                               onTap: () {},
                               backgrondColor: Colors.red),
                         ],
-                      )
+                      ),
+                      SizedBox(height: 10,),
+                
               ],
             ),
           ),
@@ -176,6 +178,15 @@ class _DescriptionRequestPageState extends State<DescriptionRequestPage> {
         bottomNavigationBar: RoutesWidget(
           currentIndex: 2,
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: SizedBox(
+                  width: MediaQuery.of(context).size.width*.8,
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(Icons.share),
+                    label: Text("Поделиться"),
+                  ),
+                ),
       ),
     );
   }

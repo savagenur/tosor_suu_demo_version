@@ -6,6 +6,7 @@ class AddressModel {
   final int phoneNumber;
   final int personalAccount;
   String? priority;
+  bool isMeterReading;
   List<String> subAddresses;
   bool isExpanded;
 
@@ -17,6 +18,7 @@ class AddressModel {
     required this.phoneNumber,
     required this.personalAccount,
     this.priority = "Нормалный",
+    this.isMeterReading = true,
     required this.subAddresses,
      this.isExpanded=false,
   });

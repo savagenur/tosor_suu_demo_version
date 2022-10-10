@@ -17,6 +17,7 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Colors.green[100],
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text('ОО "Тосор Суу"'),
@@ -70,7 +71,7 @@ class GeneralAnalytics extends StatelessWidget {
           GraphicWidget(
             screenSize: screenSize,
             number: "333 100 / 433 311",
-            title: "Собранно за август",
+            title: "Собранно за август - 2022 год",
           ),
         ],
       ),

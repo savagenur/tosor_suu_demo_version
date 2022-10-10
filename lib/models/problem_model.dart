@@ -30,7 +30,7 @@ List<ProblemModel> allProblems = [
       nameSurname: "Азамат Азаматов",
       phoneNumber: 996787878,
       problem: "Неправильный счет за услуги",
-      color: Colors.amber,
+      color: Colors.orange,
       position: 1,
       status: "В работе"),
   ProblemModel(
@@ -51,7 +51,7 @@ List<ProblemModel> allProblems = [
       nameSurname: "Азамат Азаматов",
       phoneNumber: 996787878,
       problem: " Абразивный эффект при использовании воды",
-      color: Colors.green,
+      color: Colors.amber,
       position: 0,
       status: "Открытый"),
   ProblemModel(

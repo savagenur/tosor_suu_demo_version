@@ -26,7 +26,7 @@ class ChooseServicesPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CheckPage(
-                        address: address,
+                            address: address,
                             title: "Холодная вода",
                           )));
                 },
@@ -39,51 +39,63 @@ class ChooseServicesPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CheckPage(
-                        address: address,
-
+                            address: address,
                             title: "Мусор",
                           )));
                 },
                 child: Text("Мусор"),
               ),
-            ),SizedBox(
+            ),
+            SizedBox(
               width: double.maxFinite,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CheckPage(
-                        address: address,
-
-                            title: "Газ",
+                            address: address,
+                            title: "Полив",
                           )));
                 },
-                child: Text("Газ"),
+                child: Text("Полив"),
               ),
-            ),SizedBox(
+            ),
+            SizedBox(
               width: double.maxFinite,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CheckPage(
-                        address: address,
-
+                            address: address,
                             title: "Пастбище",
                           )));
                 },
                 child: Text("Пастбище"),
               ),
-            ),SizedBox(
+            ),
+            SizedBox(
               width: double.maxFinite,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CheckPage(
-                        address: address,
-
-                            title: "Свет",
+                            address: address,
+                            title: "Канализация",
                           )));
                 },
-                child: Text("Свет"),
+                child: Text("Канализация"),
+              ),
+            ),
+            SizedBox(
+              width: double.maxFinite,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CheckPage(
+                            address: address,
+                            title: "Отопление",
+                          )));
+                },
+                child: Text("Отопление"),
               ),
             ),
           ],

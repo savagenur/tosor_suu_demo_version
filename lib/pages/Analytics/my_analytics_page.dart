@@ -48,8 +48,8 @@ class MyAnalyticsPage extends StatelessWidget {
                 ),
                 GraphicWidget(
                   screenSize: screenSize,
-                  number: "230000 / 400000",
-                  title: "Собрано за август 2022",
+                  number: "230 000 / 400 000",
+                  title: "Собрано за август - 2022 год",
                 ),
                 SizedBox(
                   height: 20,
@@ -58,8 +58,8 @@ class MyAnalyticsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ExpansionTile(
-                      collapsedBackgroundColor: Colors.grey[300],
-                      title: Text("Задолженности"),
+                      collapsedBackgroundColor: Colors.red[200],
+                      title: Text("Задолженности", ),
                       childrenPadding: EdgeInsets.symmetric(horizontal: 20),
                       expandedAlignment: Alignment.centerLeft,
                       expandedCrossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +88,7 @@ class MyAnalyticsPage extends StatelessWidget {
                       height: 20,
                     ),
                     ExpansionTile(
-                      collapsedBackgroundColor: Colors.grey[300],
+                      collapsedBackgroundColor: Colors.yellow[300],
                       title: Text(
                         "Нерешенные заявки",
                       ),
